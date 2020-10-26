@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Petstagram</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="https://pluspng.com/img-png/instagram-png-instagram-png-icon-1024.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom:2%">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <a class="nav-link" href="{% url 'landing_page' %}">Home</a>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'pet_list' %}">All Pet Photos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'pet create' %}">Create pet</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'delete pet' %}">Delete</a>
+            </li>
+
+        </ul>
+    </div>
+    <span style="margin-right: 10px">Hello, {{ request.user }}</span>
+    <span><a href="{% url 'sign out' %}">log out</a></span>
+</nav>
+
+
+<div class="container">
+    <div class="d-flex">
+        <div class="d-inline p-2 w-50">
+            <img src="{{ pet.image_url }}" class="w-50 rounded mx-auto d-block pet-photo"
+                 alt="The photo of {{ pet.name }} is not available at the moment. Please, excuse us.">
+        </div>
+        <div class="d-inline p-2 w-50">
+            <div class="d-flex justify-content-between">
+                <h5><u>Type:</u> {{ pet.type }}</h5>
+                <h5><u>Name:</u> {{ pet.name }}</h5>
+                <h5><u>Age:</u> {{ pet.age }}</h5>
+            </div>
+            <p class="mt-2">Description: {{ pet.description }}</p>
+            <a href="{% url 'like pet' pet.pk %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+            <p class="mt-2">Likes: {{ pet.likes_count }}</p>
+        </div>
+
+    </div>
+
+</div>
+{% if comment %}
+{% for row in comment %}
+    <div class="row d-flex justify-content-center mt-100 mb-100">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    {#                <h4 class="card-title"> Comments</h4>#}
+                </div>
+                <div class="comment-widgets">
+                    <!-- Comment Row -->
+                    <div class="d-flex flex-row comment-row m-t-0">
+                        <div class="p-2"></div>
+                        <div class="comment-text w-100">
+                            <h6 class="font-medium">{{ row.username }}:</h6> <span
+                                class="m-b-15 d-block">{{ row.comment }}</span>
+                            <div class="comment-footer"><span class="text-muted float-right">{{ row.created_on}}</span>
+
+                            </div>
+                        </div>
+                    </div> <!-- Comment Row -->
+
+
+                </div> <!-- Card -->
+            </div>
+        </div>
+    </div>
+{% endfor %}
+    {% else %}
+    <div style="text-align: center; margin: 20px 0 20px 0"><h3 style="margin: auto">No comments to display. <br>Write the first comment for <b><h1 style="color: #2629ff">{{ pet.name }}</h1></b></h3></div>
+{% endif %}
+<div class="row" style="margin-top: 20px">
+    <div class="block" style="margin: auto">
+        <form method="POST" action="{% url 'pet comment' pet.pk %}" style="text-align: center">
+            {% csrf_token %}
+            {{ comment_form }}
+            <button type="submit" class="btn btn-primary col-8"> Submit</button>
+        </form>
+    </div>
+</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+
+</html>
+
