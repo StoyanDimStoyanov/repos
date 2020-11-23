@@ -22,7 +22,7 @@ class Pet(models.Model):
     name = models.CharField(max_length=6)
     age = models.PositiveIntegerField()
     description = models.TextField(blank=True, max_length=100)
-    image_url = models.URLField(blank=False, )
+    image_url = models.URLField(blank=False)
     date_created = models.DateTimeField(auto_now=True)
     username = models.ForeignKey(User, on_delete=models.CASCADE)
 

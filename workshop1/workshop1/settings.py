@@ -86,7 +86,7 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_DB',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'admin123',
         'HOST': '127.0.0.1',
@@ -133,7 +133,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static"]
+    BASE_DIR / "static", ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = join(BASE_DIR, 'media/')
